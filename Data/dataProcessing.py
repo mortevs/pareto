@@ -4,6 +4,7 @@ from pandas import DataFrame
 import pandas as pd
 from datetime import datetime
 
+
 def get_field_list_inc_No_field_chosen():
     fieldnames = get.fieldNames()
 
@@ -73,10 +74,13 @@ def addActualProdYtoDF(field: str, df: DataFrame,  adjustLength = True, upTime =
     df = df.assign(OilEquivalentsSm3perDay=Oe)
     df = df.assign(WaterSm3perDay=w)
     return df
-def add_cumulative_columns(df, columns_to_ignore=[]):
+def add_cumulative_columns(df, columns_to_ignore=["Watercut"]):
     columns = list(df.columns)
     for name in columns_to_ignore:
-        columns.remove(name)
+        try:
+            columns.remove(name)
+        except:
+            pass
 
     for column_name in columns:
         cumulative_column = df[column_name].cumsum()        
@@ -98,7 +102,38 @@ def yearly_produced_DF(field: str, df: DataFrame) ->DataFrame:
     df = df.assign(OilEquivalentsSm3Yearly=Oe)
     df = df.assign(WaterSm3Yearly=w)
     df = df.assign(Watercut=(100*df["WaterSm3Yearly"]/(df["WaterSm3Yearly"] + df['OilSm3Yearly'] + df['CondensateSm3Yearly'] + df['NGLSm3Yearly'])))
+    return df
 
+def yearly_produced_DF_API(field: str, df: DataFrame) ->DataFrame:
+    gas, NGL, oil, cond, Oe, w = get.CSVProductionYearly(field)
+    gas = [i*10**9*6.2898 for i in gas] #prfPrdGasNetBillSm3 to barrels
+    NGL = [i*10**6*6.2898 for i in NGL] #prfPrdOilNetMillSm3 to barrels
+    oil = [i*10**6*6.2898 for i in oil] #prfPrdCondensateNetMillSm3 to barrels
+    cond = [i*10**6*6.2898 for i in cond] #prfPrdOeNetMillSm3 to barrels
+    Oe = [i*10**6*6.2898 for i in Oe] #prfPrdOeNetMillSm3 to barrels
+    w = [i*10**6*6.2898 for i in w] #prfPrdProducedWaterInFieldMillSm3 to barrels
+    df = df.assign(Gas_bbl_Yearly=gas)
+    df = df.assign(NGL_bbl_Yearly=NGL)
+    df = df.assign(Oil_bbl_Yearly=oil)
+    df = df.assign(Condensate_bbl_Yearly=cond)
+    df = df.assign(OilEquivalents_bbl_Yearly=Oe)
+    df = df.assign(Water_bbl_Yearly=w)
+    return df
+
+def monthly_produced_DF_API(field: str, df: DataFrame) ->DataFrame:
+    gas, NGL, oil, cond, Oe, w = get.CSVProductionMonthly(field)
+    gas = [i*10**9*6.2898 for i in gas] #prfPrdGasNetBillSm3 to barrels
+    NGL = [i*10**6*6.2898 for i in NGL] #prfPrdOilNetMillSm3 to barrels
+    oil = [i*10**6*6.2898 for i in oil] #prfPrdCondensateNetMillSm3 to barrels
+    cond = [i*10**6*6.2898 for i in cond] #prfPrdOeNetMillSm3 to barrels
+    Oe = [i*10**6*6.2898 for i in Oe] #prfPrdOeNetMillSm3 to barrels
+    w = [i*10**6*6.2898 for i in w] #prfPrdProducedWaterInFieldMillSm3 to barrels
+    df = df.assign(Gas_bbl_Monthly=gas)
+    df = df.assign(NGL_bbl_Monthly=NGL)
+    df = df.assign(Oil_bbl_Monthly=oil)
+    df = df.assign(Condensate_bbl_Monthly=cond)
+    df = df.assign(OilEquivalents_bbl_Monthly=Oe)
+    df = df.assign(Water_bbl_Monthly=w)
     return df
 
 def monthly_produced_DF(field: str, df: DataFrame) ->DataFrame:
@@ -115,10 +150,9 @@ def monthly_produced_DF(field: str, df: DataFrame) ->DataFrame:
     df = df.assign(CondensateSm3Monthly=cond)
     df = df.assign(OilEquivalentsSm3Monthly=Oe)
     df = df.assign(WaterSm3Monthly=w)
-    df = df.assign(Watercut=(100*df["WaterSm3Monthly"]/(df["WaterSm3Monthly"] + df['OilSm3Monthly'] + df['CondensateSm3Monthly'] + df['NGLSm3Monthly'])))
     return df
 
-import pandas as pd
+
 
 def addProducedYears(field: str, df: pd.DataFrame, adjustLength=True) -> pd.DataFrame:
     try:
@@ -139,6 +173,32 @@ def addProducedYears(field: str, df: pd.DataFrame, adjustLength=True) -> pd.Data
     except Exception as e:
         st.warning(f"Field has not produced anything yet. Could not get the produced years due to the following error: {e}.")
         return df
+    
+
+def addProducedYears_API(field: str, df: pd.DataFrame, adjustLength=True) -> pd.DataFrame:
+    try:
+        sY = min(get.CSVProducedYears(field))
+        years = [sY]
+
+        if adjustLength:
+            i = 1
+            while len(years) < len(df.iloc[:, 0]):
+                years.append(sY + i)
+                i += 1
+        
+        date_format = '%Y'
+        period = "Y"
+        df.index = pd.to_datetime(years, format=date_format).to_period(period).to_timestamp(period)
+        days_in_year = df.index.to_series().dt.is_leap_year.apply(lambda x: 366 if x else 365)
+        df = df.div(days_in_year, axis=0)
+        df = df.assign(Watercut=(100*df["Water_bbl_Yearly"]/(df["Water_bbl_Yearly"] + df['Oil_bbl_Yearly'] + df['Condensate_bbl_Yearly'] + df['NGL_bbl_Yearly'])))
+
+        return df
+
+    except Exception as e:
+        st.warning(f"Field has not produced anything yet. Could not get the produced years due to the following error: {e}.")
+        return df
+
 
 def check_addProducedYears(field: str) -> DataFrame:
     try:
@@ -172,6 +232,18 @@ def addProducedMonths(field: str, df: pd.DataFrame) -> pd.DataFrame:
         return df
 
 
+def addProducedMonths_API(field: str, df: pd.DataFrame) -> pd.DataFrame:
+    try:
+        years, months = get.CSVProducedMonths(field)
+        dates = [datetime.strptime(f"{month}:{year}", "%m:%Y") for year, month in zip(years, months)]
+        df.index = pd.to_datetime(dates).to_period('M').to_timestamp('M')
+        days_in_month = df.index.to_series().dt.days_in_month
+        df = df.div(days_in_month, axis = 0)
+        df = df.assign(Watercut=(100*df["Water_bbl_Monthly"]/(df["Water_bbl_Monthly"] + df['Oil_bbl_Monthly'] + df['Condensate_bbl_Monthly'] + df['NGL_bbl_Monthly'])))
+        return df
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return df
 
 
 

@@ -214,31 +214,31 @@ def multi_plot(dfs, addAll=True, addProduced=False, num=None, comp=False):
 def multi_plot_SODIR(dfs, time_frame):
     fig = go.Figure()
     axis_titles = {
-        'GasSm3Yearly': ('Date', 'Sm3'),
-        'NGLSm3Yearly': ('Date', 'Sm3'),
-        'OilSm3Yearly': ('Date', 'Sm3'),
-        'CondensateSm3Yearly': ('Date', 'Sm3'),
-        'OilEquivalentsSm3Yearly': ('Date', 'Sm3'),
-        'WaterSm3Yearly': ('Date', 'Sm3'),
-        'GasSm3Monthly': ('Date', 'Sm3'),
-        'NGLSm3Monthly': ('Date', 'Sm3'),
-        'OilSm3Monthly': ('Date', 'Sm3'),
-        'CondensateSm3Monthly': ('Date', 'Sm3'),
-        'OilEquivalentsSm3Monthly': ('Date', 'Sm3'),
-        'WaterSm3Monthly': ('Date', 'Sm3'),
+        'Gas_bbl_Yearly': ('Date', 'bbl/d'),
+        'NGL_bbl_Yearly': ('Date', 'bbl/d'),
+        'Oil_bbl_Yearly': ('Date', 'bbl/d'),
+        'Condensate_bbl_Yearly': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_Yearly': ('Date', 'bbl/d'),
+        'Water_bbl_Yearly': ('Date', 'bbl/d'),
+        'Gas_bbl_Monthly': ('Date', 'bbl/d'),
+        'NGL_bbl_Monthly': ('Date', 'bbl/d'),
+        'Oil_bbl_Monthly': ('Date', 'bbl/d'),
+        'Condensate_bbl_Monthly': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_Monthly': ('Date', 'bbl/d'),
+        'Water_bbl_Monthly': ('Date', 'bbl/d'),
         'Watercut': ('Date', '%'),        
-        'GasSm3YearlyCumulative': ('Date', 'Sm3'),
-        'NGLSm3YearlyCumulative': ('Date', 'Sm3'),
-        'OilSm3YearlyCumulative': ('Date', 'Sm3'),
-        'CondensateSm3YearlyCumulative': ('Date', 'Sm3'),
-        'OilEquivalentsSm3YearlyCumulative': ('Date', 'Sm3'),
-        'WaterSm3YearlyCumulative': ('Date', 'Sm3'),
-        'GasSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'NGLSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'OilSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'CondensateSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'OilEquivalentsSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'WaterSm3MonthlyCumulative': ('Date', 'Sm3'),
+        'Gas_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'NGL_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Oil_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Condensate_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Water_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Gas_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'NGL_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Oil_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Condensate_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Water_bbl_MonthlyCumulative': ('Date', 'bbl/d')
 
     }
     columns_to_plot = []
@@ -282,7 +282,7 @@ def multi_plot_SODIR(dfs, time_frame):
         )
         ],
         xaxis_title="Date",  # X-axis title
-        yaxis_title="Sm3",  # Y-axis title
+        yaxis_title="bbl/d",  # Y-axis title
         height=450,
     )
 
@@ -291,31 +291,32 @@ def multi_plot_SODIR_compare(dfs, fields, res, comp_align, time_frame):
     fig = go.Figure()
     columns_to_plot = []
     axis_titles = {
-        'GasSm3Yearly': ('Date', 'Sm3'),
-        'NGLSm3Yearly': ('Date', 'Sm3'),
-        'OilSm3Yearly': ('Date', 'Sm3'),
-        'CondensateSm3Yearly': ('Date', 'Sm3'),
-        'OilEquivalentsSm3Yearly': ('Date', 'Sm3'),
-        'WaterSm3Yearly': ('Date', 'Sm3'),
-        'GasSm3Monthly': ('Date', 'Sm3'),
-        'NGLSm3Monthly': ('Date', 'Sm3'),
-        'OilSm3Monthly': ('Date', 'Sm3'),
-        'CondensateSm3Monthly': ('Date', 'Sm3'),
-        'OilEquivalentsSm3Monthly': ('Date', 'Sm3'),
-        'WaterSm3Monthly': ('Date', 'Sm3'),
-        'Watercut': ('Date', '%'),
-        'GasSm3YearlyCumulative': ('Date', 'Sm3'),
-        'NGLSm3YearlyCumulative': ('Date', 'Sm3'),
-        'OilSm3YearlyCumulative': ('Date', 'Sm3'),
-        'CondensateSm3YearlyCumulative': ('Date', 'Sm3'),
-        'OilEquivalentsSm3YearlyCumulative': ('Date', 'Sm3'),
-        'WaterSm3YearlyCumulative': ('Date', 'Sm3'),
-        'GasSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'NGLSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'OilSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'CondensateSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'OilEquivalentsSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'WaterSm3MonthlyCumulative': ('Date', 'Sm3'),
+        'Gas_bbl_Yearly': ('Date', 'bbl/d'),
+        'NGL_bbl_Yearly': ('Date', 'bbl/d'),
+        'Oil_bbl_Yearly': ('Date', 'bbl/d'),
+        'Condensate_bbl_Yearly': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_Yearly': ('Date', 'bbl/d'),
+        'Water_bbl_Yearly': ('Date', 'bbl/d'),
+        'Gas_bbl_Monthly': ('Date', 'bbl/d'),
+        'NGL_bbl_Monthly': ('Date', 'bbl/d'),
+        'Oil_bbl_Monthly': ('Date', 'bbl/d'),
+        'Condensate_bbl_Monthly': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_Monthly': ('Date', 'bbl/d'),
+        'Water_bbl_Monthly': ('Date', 'bbl/d'),
+        'Watercut': ('Date', '%'),        
+        'Gas_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'NGL_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Oil_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Condensate_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Water_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Gas_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'NGL_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Oil_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Condensate_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Water_bbl_MonthlyCumulative': ('Date', 'bbl/d')
+
     }
     columns_to_plot = []
     columns_set = set()
@@ -389,7 +390,7 @@ def multi_plot_SODIR_compare(dfs, fields, res, comp_align, time_frame):
             active=4,  # Change active button here
             buttons=all_buttons)],
         xaxis_title="Date",  
-        yaxis_title="Sm3", 
+        yaxis_title="bbl/d", 
         height=450,
         showlegend=True  
     )
@@ -410,31 +411,32 @@ def multi_plot_SODIR_forecast(fields, res, res_forecast, time_frame):
     fig = go.Figure()
     columns_to_plot = []
     axis_titles = {
-        'GasSm3Yearly': ('Date', 'Sm3'),
-        'NGLSm3Yearly': ('Date', 'Sm3'),
-        'OilSm3Yearly': ('Date', 'Sm3'),
-        'CondensateSm3Yearly': ('Date', 'Sm3'),
-        'OilEquivalentsSm3Yearly': ('Date', 'Sm3'),
-        'WaterSm3Yearly': ('Date', 'Sm3'),
-        'GasSm3Monthly': ('Date', 'Sm3'),
-        'NGLSm3Monthly': ('Date', 'Sm3'),
-        'OilSm3Monthly': ('Date', 'Sm3'),
-        'CondensateSm3Monthly': ('Date', 'Sm3'),
-        'OilEquivalentsSm3Monthly': ('Date', 'Sm3'),
-        'WaterSm3Monthly': ('Date', 'Sm3'),
-        'Watercut': ('Date', '%'),
-        'GasSm3YearlyCumulative': ('Date', 'Sm3'),
-        'NGLSm3YearlyCumulative': ('Date', 'Sm3'),
-        'OilSm3YearlyCumulative': ('Date', 'Sm3'),
-        'CondensateSm3YearlyCumulative': ('Date', 'Sm3'),
-        'OilEquivalentsSm3YearlyCumulative': ('Date', 'Sm3'),
-        'WaterSm3YearlyCumulative': ('Date', 'Sm3'),
-        'GasSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'NGLSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'OilSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'CondensateSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'OilEquivalentsSm3MonthlyCumulative': ('Date', 'Sm3'),
-        'WaterSm3MonthlyCumulative': ('Date', 'Sm3'),
+        'Gas_bbl_Yearly': ('Date', 'bbl/d'),
+        'NGL_bbl_Yearly': ('Date', 'bbl/d'),
+        'Oil_bbl_Yearly': ('Date', 'bbl/d'),
+        'Condensate_bbl_Yearly': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_Yearly': ('Date', 'bbl/d'),
+        'Water_bbl_Yearly': ('Date', 'bbl/d'),
+        'Gas_bbl_Monthly': ('Date', 'bbl/d'),
+        'NGL_bbl_Monthly': ('Date', 'bbl/d'),
+        'Oil_bbl_Monthly': ('Date', 'bbl/d'),
+        'Condensate_bbl_Monthly': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_Monthly': ('Date', 'bbl/d'),
+        'Water_bbl_Monthly': ('Date', 'bbl/d'),
+        'Watercut': ('Date', '%'),        
+        'Gas_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'NGL_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Oil_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Condensate_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Water_bbl_YearlyCumulative': ('Date', 'bbl/d'),
+        'Gas_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'NGL_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Oil_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Condensate_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'OilEquivalents_bbl_MonthlyCumulative': ('Date', 'bbl/d'),
+        'Water_bbl_MonthlyCumulative': ('Date', 'bbl/d')
+
     }
 
     # Plot res
@@ -505,7 +507,7 @@ def multi_plot_SODIR_forecast(fields, res, res_forecast, time_frame):
             active=4,  # Change active button here
             buttons=all_buttons)],
         xaxis_title="Date",  
-        yaxis_title="Sm3", 
+        yaxis_title="bbl/d", 
         height=450,
         showlegend=True  
     )

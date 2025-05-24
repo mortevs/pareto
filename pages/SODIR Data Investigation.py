@@ -33,9 +33,9 @@ class SODIR_feature:
         sodir_obj.updateFromDropDown(fieldName = self.__field, time = self.__time, align = align, company = self.__company)
         col6, colmid, col7  = st.columns(3)
         with col6:
-            run = st.button('Show Field Volumes', 'Show produced volumes', use_container_width=True)
+            run = st.button('Show Field Rates', 'Show produced volumes', use_container_width=True)
         with colmid:
-            runCompany = st.button('Show Company Volumes', 'Show produced company vol', use_container_width=True)
+            runCompany = st.button('Show Company Rates', 'Show produced company vol', use_container_width=True)
         with col7:
             comp = st.button('Compare Fields and Companies', 'Compare', use_container_width=True)
         col8, col9 = st.columns(2)
@@ -75,7 +75,7 @@ class SODIR_feature:
             dfs = (sodir_obj.getResult())
             fields = (sodir_obj.getField())
             for i in range(len(dfs)):
-                st.write("Company production rates assume todays ownershare of the fields since production startup (todays ownership percentages are reflected as the  ownership percentages)")
+                st.write("Company rates assume todays ownershare of the fields since production startup (todays ownership percentages are reflected as the  ownership percentages throughout company history)")
                 st.write(fields[i], ':')
                 st.dataframe(dfs[i])
 
@@ -83,8 +83,8 @@ class SODIR_feature:
             if clear:
                 sodir_obj.clear_output()
             if comp and len(sodir_obj.getResult()) == 0:
-                st.error("""No fields/companies to compare. Choose a field and press Plot production profile. Choose another field and then press
-                        Plot production profile again. Then press compare fields.""")
+                st.error("""No fields/companies to compare. Choose a field/company and press show rates. Choose another field and then press
+                        show rates again. Then press compare.""")
             elif comp:
                 st.title('Comparison of Produced Volumes')
                 sodir_obj.plot(comp = True)

@@ -35,7 +35,7 @@ class main_page_GUI:
             my_path = os.path.join('Data', 'Storage', 'frontpage.png')
             st.image(my_path)
         with col2:
-            on_information = st.toggle("Show me more information on how to use the application", value=False, label_visibility="visible")
+            on_information = st.toggle("Show me more information on the application", value=False, label_visibility="visible")
             if on_information:
                 st.write(
                             """The application is connected to Sodir (https://www.sodir.no/). Data can automatically be pulled from Sodirs open data sources,
@@ -50,7 +50,7 @@ class main_page_GUI:
         st.write("")
         st.write("")
         st.write("")
-        st.write("BY USING THIS WEB SITE YOU UNDERSTAND AND AGREE THAT YOUR USE OF THIS WEB SITE AND ANY SERVICES OR CONTENT PROVIDED IS MADE AVAILABLE AND PROVIDED TO YOU AT YOUR OWN RISK. IT IS PROVIDED TO YOU AS IS AND SMIPPS EXPRESSLY DISCLAIM ALL WARRANTIES OF ANY KIND.")
+        st.write("BY USING THIS WEB SITE YOU UNDERSTAND AND AGREE THAT YOUR USE OF THIS WEB SITE AND ANY SERVICES OR CONTENT PROVIDED IS MADE AVAILABLE AND PROVIDED TO YOU AT YOUR OWN RISK. IT IS PROVIDED TO YOU AS IS - ALL WARRANTIES OF ANY KIND ARE EXPRESSLY DISCLAIMED.")
 
 
 
