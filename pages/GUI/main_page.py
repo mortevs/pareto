@@ -22,7 +22,7 @@ class main_page_GUI:
         m = st.markdown("""
         <style>
         div.stButton > button:first-child {
-            background-color: rgb(34, 44, 92)!important;
+            background-color: rgb(12, 85, 72)!important;
             color: white !important;
         }
         </style>""", unsafe_allow_html=True)
